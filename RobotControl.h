@@ -15,6 +15,7 @@ public:
         ~RobotControl() {}
 
         void connect();
+        void disconnect();
         void turnLeft();
         void turnRight();
         void forward();

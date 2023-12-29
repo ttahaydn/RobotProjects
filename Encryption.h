@@ -1,6 +1,6 @@
 #pragma once
 class Encryption {
 public:
-    int encrypt(int number);
-    int decrypt(int encryptedNumber);
+    int encrypt(int num);
+    int decrypt(int encryptedNum);
 };

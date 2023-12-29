@@ -7,15 +7,15 @@ using namespace std;
 
 class RobotOperator {
 private:
-	string name;
-	string surname;
-	unsigned int accessCode;
-	bool accessState;
-	int encryptCode(int codeToEncrypt);
-	int decryptCode(int encryptedCode);
-	Encryption* encryption;
+    string name;
+    string surname;
+    unsigned int accessCode;
+    bool accessState;
+
 public:
-	RobotOperator(string n, string s, int code);
-	bool checkAccessCode(int);
-	void print() const;
+    RobotOperator(string n, string s, int code, Encryption& encryption);
+    bool checkAccessCode(int);
+    void print() const;
+    int encryptCode(int codeToEncrypt, Encryption& encryption);
+    int decryptCode(int encryptedCode, Encryption& encryption);
 };

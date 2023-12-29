@@ -8,6 +8,11 @@ void RobotControl::connect()
     robotAPI->connect();
 }
 
+void RobotControl::disconnect()
+{
+    robotAPI->disconnect();
+}
+
 void RobotControl::turnLeft() {
     robotAPI->turnRobot(LEFT);
     RobotControl::getPose();
@@ -25,11 +30,11 @@ void RobotControl::forward() {
 
 void RobotControl::print() {
 
-    //Read sonar range values
+    /*! Read sonar range values.*/
     double sonarLeft, sonarRight;
     robotAPI->getSonarRange(sonarLeft, sonarRight);
 
-    //Read foot bumper values
+    /*! Read foot bumper values.*/
     bool leftFoot_left, leftFoot_right, rightFoot_left, rightFoot_right;
     robotAPI->getFootBumpers(leftFoot_left, leftFoot_right, rightFoot_left, rightFoot_right);
 

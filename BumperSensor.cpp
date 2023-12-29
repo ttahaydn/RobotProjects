@@ -1,6 +1,10 @@
 #include "BumperSensor.h"
 
 bool BumperSensor::getState(int index) const {
+	if (index < 0 || index > 4) {
+		cerr << "\nError: Invalid index." << endl;
+		exit(1);
+	}
 	return states[index];
 }
 

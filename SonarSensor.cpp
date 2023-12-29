@@ -2,29 +2,45 @@
 
 double SonarSensor::getRange(int index) const{
 	robotAPI->getSonarRange(ranges[0], ranges[1]);
-	if (index < 0 || index > 1) {
-		throw std::exception("Out of range");
+	if ((index != 1) && (index != 0)) {
+		cerr << "\nError: Invalid index." << endl;
+		exit(1);
 	}
 	return ranges[index];
 }
 
-double SonarSensor::getMax(int& index) const {
-	robotAPI->getSonarRange(ranges[0], ranges[1]);
-	if (ranges[0] > ranges[1]) return ranges[0];
-	else return ranges[1];
+double SonarSensor::getMax(int& index) {
+    robotAPI->getSonarRange(ranges[0], ranges[1]);
+    if (ranges[0] > ranges[1]) {
+        index = 0;
+        return ranges[0];
+    }
+    else {
+        index = 1;
+        return ranges[1];
+    }
 }
 
-double SonarSensor::getMin(int& index) const {
-	robotAPI->getSonarRange(ranges[0], ranges[1]);
-	if (ranges[0] > ranges[1]) return ranges[1];
-	else return ranges[0];
+double SonarSensor::getMin(int& index)  {
+    robotAPI->getSonarRange(ranges[0], ranges[1]);
+    if (ranges[0] > ranges[1]) {
+        index = 1;
+        return ranges[1];
+    }
+    else {
+        index = 0;
+        return ranges[0];
+    }
 }
 
-void SonarSensor::updateSensor(double* _ranges) {
-	ranges[0] = _ranges[0];
-	ranges[1] = _ranges[1];
+void SonarSensor::updateSensor() {
+    robotAPI->getSonarRange(ranges[0], ranges[1]);
 }
 
 double SonarSensor::operator[](int i) {
-	return ranges[i];
+    if ((i != 1) && (i != 0)) {
+        cerr << "\nError: Subscript out of range" << endl;
+        exit(1);
+    }
+    return ranges[i];
 }

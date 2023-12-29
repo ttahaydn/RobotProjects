@@ -1,14 +1,38 @@
 #include "Encryption.h"
+#include <iostream>
 
-int Encryption::encrypt(int number) {
-    
-    int encryptedNumber = ((number % 10) + 7) % 10 * 1000 + (((number / 10) % 10) + 7) % 10 * 100 + (((number / 100) % 10) + 7) % 10 * 10 + ((number / 1000) + 7) % 10;
-    encryptedNumber = (encryptedNumber / 1000) * 1000 + ((encryptedNumber / 100) % 10) * 100 + ((encryptedNumber / 10) % 10) * 10 + (encryptedNumber % 10);
-    encryptedNumber = ((encryptedNumber / 1000) * 1000) + ((encryptedNumber % 10) * 100) + ((encryptedNumber / 10) % 10) * 10 + ((encryptedNumber / 100) % 10);
-    return encryptedNumber;
+using namespace std;
+
+int Encryption::encrypt(int num) {
+    if (num < 1000 || num > 9999) {
+        // Hata durumu: Sayý 4 basamaklý deðil
+        cout << "Error: Input must be a 4-digit number." << endl;
+        exit(1);
+    }
+
+    int d1 = (num % 10 + 7) % 10;
+    int d2 = ((num / 10) % 10 + 7) % 10;
+    int d3 = ((num / 100) % 10 + 7) % 10;
+    int d4 = (num / 1000 + 7) % 10;
+
+    int encryptedNum = d2 * 1000 + d1 * 100 + d4 * 10 + d3;
+    return encryptedNum;
 }
 
-int Encryption::decrypt(int encryptedNumber) {
-    int decryptedNumber = ((encryptedNumber / 1000) + 3) % 10 * 1000 + (((encryptedNumber / 100) % 10) + 3) % 10 * 100 + (((encryptedNumber / 10) % 10) + 3) % 10 * 10 + ((encryptedNumber % 10) + 3) % 10;
-    return decryptedNumber;
+
+int Encryption::decrypt(int encryptedNum) {
+    if (encryptedNum < 1000  ||  encryptedNum > 9999) {
+        // Hata durumu: Sayý 4 basamaklý deðil
+        cout << "Error: Input must be a 4-digit number." << endl;
+        exit(1);
+    }
+    int d1 = (encryptedNum % 10 + 3) % 10;
+    int d2 = ((encryptedNum / 10) % 10 + 3) % 10;
+    int d3 = ((encryptedNum / 100) % 10 + 3) % 10;
+    int d4 = (encryptedNum / 1000 + 3) % 10;
+
+
+    int decryptedNum = d2 * 1000 + d1 * 100 + d4 * 10 + d3;
+
+    return decryptedNum;
 }

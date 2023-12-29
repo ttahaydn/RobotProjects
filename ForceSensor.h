@@ -8,6 +8,9 @@ private:
 	double force;
 	NaoRobotAPI* RobotAPI;
 public:
+	ForceSensor(NaoRobotAPI* nao) : RobotAPI(nao) {
+		force = 0.0;
+	}
 	void updateSensor(double);
 	double getForce() const;
 	bool CheckFall() const;

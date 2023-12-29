@@ -12,25 +12,37 @@ Path::~Path() {
     }
 }
 
+/**
+ * @brief Adds a new position to the path.
+ *
+ * This method creates a new node in the path, setting its pose to the provided
+ * Pose object and appending it to the end of the linked list. If the list is
+ * empty (tail is nullptr), the new node becomes the head of the list. Otherwise,
+ * it is appended after the current tail and the tail pointer is updated to the
+ * new node. The number of nodes in the path is incremented.
+ *
+ * @param pos Pointer to the Pose object to add to the path.
+ */
 void Path::addPos(Pose* pos) {
-    Node* newnode = new Node;
-    newnode->pose = (*pos);
-    newnode->next = nullptr;
-    if (tail == nullptr) {
-        head = newnode;
+    Node* newnode = new Node;  // Creates a new Node object dynamically.
+    newnode->pose = (*pos);    // Dereferences the pos pointer and assigns the pose to the new node.
+    newnode->next = nullptr;   // Sets the next pointer of the new node to nullptr.
+
+    if (tail == nullptr) {     // Checks if the list is currently empty.
+        head = newnode;        // If empty, the new node becomes the head of the list.
     }
     else {
-        tail->next = newnode;
+        tail->next = newnode;  // If not empty, appends the new node after the current tail.
     }
 
-    tail = newnode;
-    number++;         
+    tail = newnode;            // Updates the tail pointer to the new node.
+    number++;                  // Increments the number of nodes in the path.
 }
 
 void Path::print() const {
     Node* current = head;
     while (current != nullptr) {
-        // Her Node'daki Pose nesnesinin özelliklerini manuel olarak yazdýrýyoruz.
+        /*!We manually print the properties of the Pose object in each Node.*/
         std::cout << "Pose: x=" << current->pose.getX()
         << ", y=" << current->pose.getY()
             << ", theta=" << current->pose.getTh() << std::endl;
@@ -47,26 +59,26 @@ Pose* Path::getPos(int index) const {
     Node* current = head;
     int count = 0;
 
-    // Ýstenen indekse kadar ilerle.
+    /*!Scroll to the desired index.*/
     while (current != nullptr && count < index) {
         current = current->next;
         count++;
     }
 
-    // Eðer indeks geçerliyse ve Node bulunmuþsa, Pose'u döndür.
+    /*!If the index is valid and Node is found, return Pose.*/
     if (current != nullptr) {
         return &(current->pose);
     }
     else {
-        // Eðer indeks geçerli deðilse veya liste yeterince uzun deðilse,
+        /*!If the index is not valid or the list is not long enough,*/
         Pose* p = new Pose();
-        // varsayýlan bir Pose döndür.
+        /*!Return a default Pose.*/
         return p;
     }
 }
 
 bool Path::removePos(int index) {
-    // Eðer liste boþsa veya index negatifse
+    /*!If the list is empty or the index is negative*/
     if (head == nullptr || index < 0) {
         return false;
     }
@@ -74,27 +86,27 @@ bool Path::removePos(int index) {
     Node* current = head;
     Node* prev = nullptr;
 
-    // Ýlk elemaný silmek istiyorsak
+    /*!If we want to delete the first element*/
     if (index == 0) {
-        head = current->next; // head'i ikinci elemana taþý
-        delete current; // Eski head'i sil
+        head = current->next; /*!Move head to second element.*/
+        delete current; /*!Delete old head.*/
         return true;
     }
 
-    // Silinecek Node'a kadar ilerle
+    /*!Scroll down to the Node to delete.*/
     for (int i = 0; current != nullptr && i < index; ++i) {
         prev = current;
         current = current->next;
     }
 
-    // Eðer current null ise, index liste boyutunu aþýyor demektir
+    /*!If current is null, the index exceeds the list size.*/
     if (current == nullptr) {
         return false;
     }
 
-    // current'i listeden çýkar
+    /*!Remove Current from the list.*/
     prev->next = current->next;
-    delete current; // Node'u bellekten sil
+    delete current; /*!Delete the node from memory.*/
 
     return true;
 }
@@ -102,7 +114,7 @@ bool Path::removePos(int index) {
 
 bool Path::insertPos(int index, const Pose& pose) {
     if (index < 0) {
-        return false; // Negatif indeks geçersizdir.
+        return false; /*! A negative index is invalid.*/
     }
 
     Node* current = head;
@@ -111,7 +123,7 @@ bool Path::insertPos(int index, const Pose& pose) {
     }
 
     if (current == nullptr) {
-        return false; // Indeks liste boyutunu aþýyorsa
+        return false; /*!If the index exceeds the list size.*/
     }
 
     Node* newNode = new Node(pose);
@@ -133,10 +145,10 @@ std::ostream& operator<<(std::ostream& os, const Path& path) {
 }
 
 std::istream& operator>>(std::istream& is, Path& path) {
-    // Klavyeden okunacak Pose nesnesi için yerel deðiþkenler
+    /*!Local variables for the Pose object to be read from the keyboard.*/
     float x, y, theta;
 
-    // Kullanýcýdan Pose bilgilerini al
+    /*!Get Pose information from the user.*/
     std::cout << "Enter Pose x :";
     is >> x;
     std::cout << "Enter Pose y :";
@@ -144,13 +156,13 @@ std::istream& operator>>(std::istream& is, Path& path) {
     std::cout << "Enter Pose th :";
     is >> theta;
 
-    // Yeni Pose nesnesi oluþtur
+    /*!Create a new Pose object.*/
     Pose pose(x, y, theta);
 
-    // Yeni Pose nesnesini Path'e ekle
+    /*!Add the new Pose object to Path.*/
     path.addPos(&pose);
 
-    // Ýþlem baþarýlýysa istream'i döndür
+    /*!Return the stream if the operation was successful.*/
     return is;
 }
 

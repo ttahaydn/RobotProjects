@@ -1,84 +1,119 @@
 
- //---------------------------------------------------------------------------------
- //  Description:  Example controller program for Nao robot.
- //                This demonstrates how to use NaoRobotAPI
- //---------------------------------------------------------------------------------
-
 #include "RobotControl.h"
 #include "NaoRobotAPI.h"
+#include "pose.h"
+#include "Path.h"
 #include <iostream>
-//
-//NaoRobotAPI* nao;
-//
-//void print() {
-//
-//	//Read sonar range values
-//	double sonarLeft, sonarRight;
-//	nao->getSonarRange(sonarLeft, sonarRight);
-//
-//	//Read foot bumper values
-//	bool leftFoot_left, leftFoot_right, rightFoot_left, rightFoot_right;
-//	nao->getFootBumpers(leftFoot_left, leftFoot_right, rightFoot_left, rightFoot_right);
-//
-//	cout << "--------------------SENSOR VALUES-------------------------------------" << endl;
-//	cout << "POSE         : (X) " << nao->getX() << " meters, " 
-//		<<"(Y) " << nao->getY() << " meters, " 
-//		<<"(Th) " << nao->getTh() << " degrees" << endl << endl;
-//	cout << "SONAR RANGES : (LEFT) "<<sonarLeft
-//		<<" meters, (RIGHT) "<<sonarRight<<" meters" << endl << endl;
-//	cout << "FOOT FORCE   : " << nao->getFootForce() << " kg.f" << endl;
-//	cout << "----------------------------------------------------------------------" << endl;
-//}
-//
 
-//// main function
-//int main() {
-//	//Create a robot object
-//    nao = new NaoRobotAPI();
-//	//Make connection to Nao
-//    nao->connect();
-//
-//
-//	//Move forward for a few steps and print the sensor values
-//    nao->moveRobot(FORWARD);
-//    Sleep(10000);
-//	nao->stopRobot();
-//	print();
-//
-//	//Move backward for a few steps and print the sensor values
-//	nao->moveRobot(BACKWARD);
-//	Sleep(10000);
-//	nao->stopRobot();
-//	print();
-//
-//	//Move left for a few steps and print the sensor values
-//	nao->moveRobot(LEFT);
-//	Sleep(10000);
-//	nao->stopRobot();
-//	print();
-//
-//	//Move right for a few steps and print the sensor values
-//	nao->moveRobot(RIGHT);
-//	Sleep(10000);
-//	nao->stopRobot();
-//	print();
-//
-//	//Turn left and print the sensor values
-//	nao->turnRobot(LEFT);
-//	Sleep(10000);
-//	nao->stopRobot();
-//	print();
-//
-//	//Turn right and print the sensor values
-//	nao->turnRobot(RIGHT);
-//	Sleep(10000);
-//	nao->stopRobot();
-//	print();
-//
-//	// close connection to the robot
-//    nao->disconnect();
-//
-//	//Delete the robot object
-//    delete nao;
-//    return 0;
-//}
+RobotControl* nao1;
+
+void showMotionMenu() {
+    int choice;
+    do {
+        cout << "Motion Menu\n"
+            << "1. Move robot right\n"
+            << "2. Move robot left\n"
+            << "3. Turn Left\n"
+            << "4. Turn Right\n"
+            << "5. Forward\n"
+            << "6. Quit\n"
+            << "Choose one: ";
+        cin >> choice;
+        switch (choice) {
+        case 1:
+            nao1->moveRight();
+            Sleep(8000);
+            break;
+        case 2:
+            nao1->moveLeft();
+            Sleep(8000);
+            break;
+        case 3:
+            nao1->turnLeft();
+            Sleep(8000);
+            break;
+        case 4:
+            nao1->turnRight();
+            Sleep(8000);
+            break;
+        case 5:
+            nao1->forward();
+            Sleep(8000);
+            break;
+        case 6:
+            return;
+        default:
+            cout << "Invalid choice. Please try again." << endl;
+        }
+    } while (choice != 6);
+}
+
+void showMainMenu() {
+            cout << "Main Menu\n"
+            << "1. Connection\n"
+            << "2. Motion\n"
+            << "3. Sensor\n"
+            << "4. Quit\n"
+            << "Choose one: ";
+}
+
+void showConnectionMenu() {
+    int choice;
+    do {
+        cout << "Connection Menu\n"
+            << "1. Connect Robot\n"
+            << "2. Disconnect Robot\n"
+            << "3. Back\n"
+            << "Choose one: ";
+        cin >> choice;
+        switch (choice) {
+        case 1:
+            nao1->connect();
+            break;
+        case 2:
+            nao1->disconnect();
+            break;
+        case 3:
+            system("cls");
+            showMainMenu();
+        default:
+            cout << "Invalid choice. Please try again." << endl;
+        }
+    } while (choice != 3);
+}
+
+void showSensorMenu() {
+    int choice;
+    do {
+        cout << "Connection Menu\n"
+            << "1. Sonar Sensor Get Range\n"
+            << "2. Sonar Sensor Get Max\n"
+            << "3. Sonar Sensor Get Min\n"
+            << "4. Bumper Sensor Get State\n"
+            << "5. Bumper Sensor Check Touch\n"
+            << "6. Force Sensor Get Force\n"
+            << "7. Quit\n"
+            << "Choose one: ";
+        cin >> choice;
+        switch (choice) {
+        case 1:
+            
+            break;
+        case 2:
+            
+            break;
+        case 3:
+            system("cls");
+            showMainMenu();
+        default:
+            cout << "Invalid choice. Please try again." << endl;
+        }
+    } while (choice != 3);
+}
+
+
+int main() {
+    nao1 = new RobotControl();
+
+    return 0;
+}
